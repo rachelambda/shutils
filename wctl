@@ -1,0 +1,44 @@
+#! /bin/sh
+
+WLAN_DEVICE=wlp3s0
+WPA_CONF=/etc/wpa_supplicant.conf
+WPA_PID_FILE=/run/wpa_supplicant/pid
+IS_ACTIVE_FILE=/run/wctl/stat
+
+# Use sudo if it exists
+SUDO="$(which sudo || printf "")"
+
+"$SUDO" mkdir -p "${WPA_PID_FILE%/*}" || exit
+"$SUDO" mkdir -p "${IS_ACTIVE_FILE%/*}" || exit
+"$SUDO" touch "$WPA_PID_FILE" || exit
+
+case "$1" in
+	e|enable)
+		[ -f "$IS_ACTIVE_FILE" ] || {
+			"$SUDO" wpa_supplicant -B -i "$WLAN_DEVICE" -c "$WPA_CONF" -P "$WPA_PID_FILE"
+			"$SUDO" dhcpcd "$WLAN_DEVICE"
+			"$SUDO" touch "$IS_ACTIVE_FILE"
+		}
+		;;
+	d|disable)
+		[ -f "$IS_ACTIVE_FILE" ] && {
+			"$SUDO" kill "$(cat "$WPA_PID_FILE")"
+			"$SUDO" kill "$(cat "/run/$WLAN_DEVICE.pid")"
+			"$SUDO" rm -f "$IS_ACTIVE_FILE"
+		}
+		;;
+	r|restart)
+		[ -f "$IS_ACTIVE_FILE" ] || {
+			"$SUDO" kill "$(cat "$WPA_PID_FILE")"
+			"$SUDO" kill "$(cat "/run/$WLAN_DEVICE.pid")"
+			"$SUDO" wpa_supplicant -B -i "$WLAN_DEVICE" -c "$WPA_CONF" -P "$WPA_PID_FILE"
+			"$SUDO" dhcpcd "$WLAN_DEVICE"
+		}
+		;;
+	s|status)
+		ip addr | sed '1,/wlp3s0/ d'
+		;;
+	*)
+		echo "Usage: wctl [ enable / disable / restart / status ]"
+		;;
+esac

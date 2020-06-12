@@ -1,12 +1,16 @@
 #! /bin/sh
 
+# Edit these!
 WLAN_DEVICE=wlp3s0
 WPA_CONF=/etc/wpa_supplicant.conf
+
+# Use sudo if it exists. Edit this if you use another privesc program than sudo.
+SUDO="$(which sudo || printf "")"
+
+# You don't need to edit these
 WPA_PID_FILE=/run/wpa_supplicant/pid
 IS_ACTIVE_FILE=/run/wctl/stat
 
-# Use sudo if it exists
-SUDO="$(which sudo || printf "")"
 
 "$SUDO" mkdir -p "${WPA_PID_FILE%/*}" || exit
 "$SUDO" mkdir -p "${IS_ACTIVE_FILE%/*}" || exit

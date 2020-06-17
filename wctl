@@ -32,16 +32,34 @@ case "$1" in
 			"$SUDO" dhcpcd -k
 		}
 		;;
-	r|restart)
-		[ -f "$IS_ACTIVE_FILE" ] || {
-			"$0" d
-			"$0" e
-		}
-		;;
 	s|status)
 		ip addr | sed "1,/"$WLAN_DEVICE"/ d"
 		;;
+	l|list)
+		grep '^\s*ssid="[a-zA-Z0-9]*"\s*$' "$WPA_CONF" | cut -d'"' -f2
+		;;
+	a|add)
+		[ -z "$2" ] && {
+			echo 'Usage: wctl [ enable / disable / restart / status / list / add <ssid> [psk] / remove <ssid> ]'
+			exit
+		}
+		printf 'network={\n\tssid="%s"\n\tpsk="%s"\n}\n' "$2" "$3" \
+			| "$SUDO" tee -a "$WPA_CONF" > /dev/null
+		;;
+	r|remove)
+		[ -z "$2" ] && {
+			echo 'Usage: wctl [ enable / disable / restart / status / list / add <ssid> [psk] / remove <ssid> ]'
+			exit
+		}
+		grep -q "^\s*ssid=\"$2\"\s*$" "$WPA_CONF" || {
+			echo "No net with ssid '$2' could be found."
+			exit
+		}
+		SSIDR="$(sed -n "/^\s*ssid=\"$2\"\s*$/=" "$WPA_CONF")"
+		sed "$(expr "$SSIDR" - 1),$(expr "$SSIDR" + 2)d" "$WPA_CONF" \
+			| "$SUDO" tee "$WPA_CONF" > /dev/null
+		;;
 	*)
-		echo "Usage: wctl [ enable / disable / restart / status ]"
+		echo 'Usage: wctl [ enable / disable / status / list / add <ssid> [psk] / remove <ssid> ]'
 		;;
 esac

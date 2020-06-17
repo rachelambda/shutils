@@ -15,16 +15,22 @@ Disable wifi
 wctl disable
 ```
 
-Restart wifi
-```
-wctl restart
-```
-
 Wifi status
 ```
 wctl status
 ```
 
-## To be added
+List remembered networks
+```
+wctl list
+```
 
-Add and remove networks from wpa_supplicant.conf
+Add a network
+```
+wctl add <SSID> [password]
+```
+
+Remove a network
+```
+wctl remove <SSID>
+```

@@ -1,16 +1,13 @@
 #! /bin/sh
 
-# Edit these!
-WLAN_DEVICE=wlp3s0
-WPA_CONF=/etc/wpa_supplicant.conf
+WLAN_DEVICE="DEV_PLACEHOLDER"
+WPA_CONF="WPA_PLACEHOLDER"
 
-# Use sudo if it exists. Edit this if you use another privesc program than sudo.
-SUDO="$(which sudo || printf "")"
+which doas > /dev/null && SUDO=doas
+which sudo > /dev/null && SUDO=sudo
 
-# You don't need to edit these
 WPA_PID_FILE=/run/wpa_supplicant/pid
 IS_ACTIVE_FILE=/run/wctl/stat
-
 
 case "$1" in
 	e|enable)

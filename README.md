@@ -1,36 +1,16 @@
-# wctl
-A simple shell script for turning on and off wifi (using dhcpcd and wpa_supplicant)
+shutils
+=======
+A set of utilities written in posix compatible shell script.
 
-## Usage
-
-First configure all the variables in the script to fit your system. Then kill wpa_supplicant and dhcpcd. From now on only use the script to control them.
-
-Enable wifi
-```
-wctl enable
+In general in these docs usage is written as follows:
+```sh
+command <required arg> [optional arg]
 ```
 
-Disable wifi
-```
-wctl disable
-```
+[bri](bri)
+---
+A tool for managing screen brightness
 
-Wifi status
-```
-wctl status
-```
-
-List remembered networks
-```
-wctl list
-```
-
-Add a network
-```
-wctl add <SSID> [password]
-```
-
-Remove a network
-```
-wctl remove <SSID>
-```
+[wctl](wctl)
+---
+A tool for managing wireless networks

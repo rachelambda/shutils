@@ -1,5 +1,7 @@
 shutils
 =======
+![Shellcheck](https://github.com/depsterr/shutils/workflows/Shellcheck/badge.svg)
+
 A set of utilities written in posix compatible shell script.
 
 In general in these docs usage is written as follows:

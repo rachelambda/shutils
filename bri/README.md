@@ -28,6 +28,11 @@ Set brightness
 bri set [amount]
 ```
 
+Set brightness to highest possible value
+```
+bri max
+```
+
 Get brightness
 ```
 bri get

@@ -14,6 +14,13 @@ case "$1" in
 	d|dec)
 		echo $(( $(cat "$BRIF") - $2 )) | "$SUDO" tee "$BRIF" > /dev/null
 		;;
+	m|max)
+		if [ -f "${BRIF%/*}/max_brightness" ]; then
+			"$SUDO" tee "$BRIF" < "${BRIF%/*}/max_brightness" > /dev/null
+		else
+			echo 100 | "$SUDO" tee "$BRIF" > /dev/null
+		fi
+		;;
 	s|set)
 		echo "$2" | "$SUDO" tee "$BRIF" > /dev/null
 		;;

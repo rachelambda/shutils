@@ -8,8 +8,4 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v1
-    - name: Run shellcheck.
-      run: |
-        shopt -s nullglob
-        shellcheck */*/build */*/post-install
+    - uses: ludeeus/action-shellcheck@0.2.1

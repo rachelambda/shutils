@@ -9,10 +9,10 @@ BRIF="PATH_PLACEHOLDER"
 
 case "$1" in
 	i|inc)
-		echo $(( $(cat "$BRIF") + "$2" )) | "$SUDO" tee "$BRIF" > /dev/null
+		echo $(( $(cat "$BRIF") + $2 )) | "$SUDO" tee "$BRIF" > /dev/null
 		;;
 	d|dec)
-		echo $(( $(cat "$BRIF") - "$2" )) | "$SUDO" tee "$BRIF" > /dev/null
+		echo $(( $(cat "$BRIF") - $2 )) | "$SUDO" tee "$BRIF" > /dev/null
 		;;
 	s|set)
 		echo "$2" | "$SUDO" tee "$BRIF" > /dev/null

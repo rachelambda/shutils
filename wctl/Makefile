@@ -6,7 +6,7 @@ all:
 
 install:
 	sed "s/DEV_PLACEHOLDER/$(shell basename $(shell find -L /sys/class/net -name 'wlp*' -or -name 'wlan*' -maxdepth 2))/g" wctl > $(BINDIR)/wctl
-	sed "s/WPA_PLACEHOLDER/$(shell find /etc -name 'wpa_supplicant.conf' | sed -e 's/[\/&]/\\&/g' -e '1q')/g" $(BINDIR)/wctl > $(BINDIR)/wctl
+	sed "s/WPA_PLACEHOLDER/$(shell find /etc -name 'wpa_supplicant.conf' | sed -e 's/[\/&]/\\&/g' -e '1q')/g" $(BINDIR)/wctl | tee $(BINDIR)/wctl > /dev/null
 	chmod 755 $(BINDIR)/wctl
 
 configure:

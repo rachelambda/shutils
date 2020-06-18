@@ -30,7 +30,7 @@ case "$1" in
 		}
 		;;
 	s|status)
-		ip addr | sed "1,/"$WLAN_DEVICE"/ d"
+		ip addr | sed "1,/$WLAN_DEVICE/ d"
 		;;
 	l|list)
 		grep '^\s*ssid="[a-zA-Z0-9]*"\s*$' "$WPA_CONF" | cut -d'"' -f2
@@ -53,7 +53,7 @@ case "$1" in
 			exit
 		}
 		SSIDR="$(sed -n "/^\s*ssid=\"$2\"\s*$/=" "$WPA_CONF")"
-		sed "$(expr "$SSIDR" - 1),$(expr "$SSIDR" + 2)d" "$WPA_CONF" \
+		sed "$((SSIDR - 1)),$((SSIDR + 2))d" "$WPA_CONF" \
 			| "$SUDO" tee "$WPA_CONF" > /dev/null
 		;;
 	*)

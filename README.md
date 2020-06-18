@@ -16,3 +16,7 @@ A tool for managing screen brightness
 [wctl](wctl)
 ---
 A tool for managing wireless networks
+
+[bulkrename](bulkrename)
+---
+A tool for renaming multiple files at once

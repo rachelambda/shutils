@@ -1,0 +1,37 @@
+#! /bin/sh
+# arg 1 - dir   - defaults to .
+# arg 2 - depth - defaults to 1
+[ -z "$1" ] && set -- .
+
+[ -z "$2" ] && set -- "$1" 1
+
+[ -d "$1" ] || {
+    echo "$1 is not a directory"
+    exit
+}
+
+case "$2" in
+    ''|*[!0-9]*)
+        echo "$2 is not a positive number"
+        exit
+esac
+
+[ "$2" -ge 1 ] || {
+    echo "$2 is not a positive number"
+    exit
+}
+
+FILE1="/tmp/bulkrename.file1"
+FILE2="/tmp/bulkrename.file2"
+
+find "$1" -maxdepth "$2" -not -name '.' | tee "$FILE1" > "$FILE2"
+
+"${EDITOR-vi}" "$FILE2"
+
+# Disable information about fire redirection not being comparison
+# shellcheck disable=2210
+[ -z "$(diff "$FILE1" "$FILE2")" ] || {
+    paste "$FILE1" "$FILE2" | awk -F"\t" '{ print "mv -i " "\"" $1 "\"" " " "\"" $2 "\"" }' | sh 2> /dev/null 1>2
+}
+
+rm "$FILE1" "$FILE2" -f

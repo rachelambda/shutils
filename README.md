@@ -9,14 +9,18 @@ In general in these docs usage is written as follows:
 command <required arg> [optional arg]
 ```
 
-[bri](bri)
+[shttp](shttp)
 ---
-A tool for managing screen brightness
+A simple http webserver
+
+[bulkrename](bulkrename)
+---
+A tool for renaming multiple files at once
 
 [wctl](wctl)
 ---
 A tool for managing wireless networks
 
-[bulkrename](bulkrename)
+[bri](bri)
 ---
-A tool for renaming multiple files at once
+A tool for managing screen brightness

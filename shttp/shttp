@@ -71,14 +71,14 @@ while read -r req; do
 		TYPE="text/html; charset=utf-8"
 		;;
 	esac
-	[ -f "$FILE" ] && {
+	if [ -f "$FILE" ]; then
 		cat - "$FILE" <<-EOF
 HTTP/1.1 200 OK
 Content-Type: $TYPE
 Content-Length: $(wc -c < "$FILE")
 
 EOF
-	} || {
+	else
 		cat <<-EOF
 HTTP/1.1 404 Not Found
 Content-Type: text/plain; charset=utf-8
@@ -87,5 +87,5 @@ Content-Length: 20
 404 not found
 shttp
 EOF
-	}
+	fi
 done

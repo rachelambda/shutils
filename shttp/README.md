@@ -1,7 +1,9 @@
 # shttp
 A simple http only webserver. It can serve most file types, throw 404 errors and handle multiple requests after each other.
 
-Note however that this script does not care for safety. While I haven't done it myself it's possible that this script is capable of directory traversal.
+The script is implemented in under 100 lines of shell, however, note that most of the script is used for matching content types and that the actual operation of the script if much smaller.
+
+This script does not care for safety. While I haven't done it myself it's possible that this script is capable of directory traversal.
 
 ## Depends
 

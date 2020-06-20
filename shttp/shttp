@@ -1,0 +1,91 @@
+#! /bin/sh
+
+[ "$1" = server ] || {
+	while :; do
+		nc -lvp 80 -e sh "$0" server
+	done
+}
+
+while read -r req; do
+	echo "$req" | grep -q 'GET\|POST' || continue
+	FILE="$(echo "$req" | cut -d' ' -f2)"
+
+	FILE="./${FILE#/}"
+	[ -d "$FILE" ] && FILE="$FILE/index.html"
+	case $FILE in
+		*.xml)
+		TYPE="application/xml; charset=utf-8"
+		;;
+		*.xhtml)
+		TYPE="application/xhtml+xml; charset=utf-8"
+		;;
+		*.css)
+		TYPE="text/css; charset=utf-8"
+		;;
+		*.txt|*.md|*.c|*.h)
+		TYPE="text/plain; charset=utf-8"
+		;;
+		*.gz)
+		TYPE="application/x-gtar"
+		;;
+		*.tar)
+		TYPE="application/tar"
+		;;
+		*.pdf)
+		TYPE="application/x-pdf"
+		;;
+		*.png)
+		TYPE="image/png"
+		;;
+		*.gif)
+		TYPE="image/gif"
+		;;
+		*.jpeg|*.jpg)
+		TYPE="image/jpg"
+		;;
+		*.iso)
+		TYPE="application/x-iso9660-image"
+		;;
+		*.webp)
+		TYPE="image/webp"
+		;;
+		*.svg)
+		TYPE="image/svg+xml; charset=utf-8"
+		;;
+		*.flac)
+		TYPE="audio/flac"
+		;;
+		*.mp3)
+		TYPE="audio/mpeg"
+		;;
+		*.ogg|*.ogv)
+		TYPE="audio/ogg"
+		;;
+		*.mp4)
+		TYPE="video/mp4"
+		;;
+		*.webm)
+		TYPE="video/webm"
+		;;
+		*)
+		TYPE="text/html; charset=utf-8"
+		;;
+	esac
+	[ -f "$FILE" ] && {
+		cat - "$FILE" <<-EOF
+HTTP/1.1 200 OK
+Content-Type: $TYPE
+Content-Length: $(wc -c < "$FILE")
+
+EOF
+	} || {
+		cat <<-EOF
+HTTP/1.1 404 Not Found
+Content-Type: text/plain; charset=utf-8
+Content-Length: 20
+
+404 not found
+shttp
+EOF
+	}
+done

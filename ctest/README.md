@@ -7,7 +7,7 @@ Either install with `make install` or if you wish to choose your own location `m
 
 ## Usage
 
-If no file is provided ctest will read user input. If a file is provided ctest will use it as the main function.
+After the program starts you can type c code. To stop typing press `Ctrl+D`. After this the typed code will be used as the body for a main function, compiled and executed.
 ```sh
-ctest [file]
+ctest [program args]
 ```

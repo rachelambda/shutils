@@ -1,0 +1,29 @@
+#!/bin/sh
+# This is only done on purpose.
+# shellcheck disable=2068
+FILE=/tmp/ctest.c
+if [ -z "$1" ]; then
+	cat > "$FILE" <<-EOF
+		#include <stdio.h>
+		#include <stdlib.h>
+
+		int main() {
+		$(cat)
+		}
+	EOF
+else
+	cat > "$FILE" <<-EOF
+		#include <stdio.h>
+		#include <stdlib.h>
+
+		int main() {
+			$(cat "$1")
+		}
+	EOF
+fi
+
+shift
+
+${CC:-cc} $CFLAGS "$FILE" $@ -o "${FILE%.c}" && "${FILE%.c}"
+
+rm -f "$FILE" "${FILE%.c}"

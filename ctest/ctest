@@ -1,6 +1,6 @@
 #!/bin/sh
 # This is only done on purpose.
-# shellcheck disable=2068
+# shellcheck disable=2068,2086
 FILE=/tmp/ctest.c
 if [ -z "$1" ]; then
 	cat > "$FILE" <<-EOF

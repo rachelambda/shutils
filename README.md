@@ -24,3 +24,11 @@ A tool for managing wireless networks
 [bri](bri)
 ---
 A tool for managing screen brightness
+
+[mansearch](mansearch)
+---
+A tool for searching manual pages
+
+[ctestsh](ctestsh)
+---
+A tool for testing c code

@@ -1,0 +1,13 @@
+#!/bin/sh
+# This is done on purpose.
+# shellcheck disable=2162,2068
+FILE=/tmp/ctest.out
+(
+	printf '#include <stdio.h>
+#include <stdlib.h>
+int main (int argc, char** argv) { %s }' \
+	"$(while read line; do printf '%s' "$line"; done)"
+) | "${CC:-cc}" -x c++ - -o "$FILE" && {
+	"$FILE" $@
+	rm -f "$FILE"
+}

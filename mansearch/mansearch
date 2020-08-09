@@ -1,20 +1,13 @@
 #!/bin/sh
 [ -z "$1" ] && exit 1
-find_file() {
-    (
-        cd "$2" || return 1
-        for file in *; do
-            [ -d "$file" ] && find_file "$1" "$PWD/$file"
-            [ -f "$file" ] && {
-                case "$file" in
-                    *"$1"*)
-                        printf '%s\n' "file found: '$PWD/$file'"
-                        ;;
-                    *) ;;
-                esac
-            }
-        done
-    )
+find_file () {
+    for file in "$2"/*; do
+        [ -f "$file" ] &&
+            case "$file" in
+                *"$1"*) printf '%s\n' "$file";;
+            esac
+        [ -d "$file" ] && find_file "$1" "$file"
+    done
 }
 IFS=:
 for path in $MANPATH; do

@@ -5,7 +5,7 @@ all:
 	@echo "Make options: install, uninstall, configure"
 
 install:
-	install -Dm755 ctest $(BINDIR)/ctest
+	install -Dm755 ctestsh $(BINDIR)/ctestsh
 
 uninstall:
-	rm -f $(BINDIR)/ctest
+	rm -f $(BINDIR)/ctestsh

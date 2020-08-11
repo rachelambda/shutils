@@ -5,6 +5,7 @@ FILE=/tmp/ctest.out
 (
 	printf '#include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 int main (int argc, char** argv) { %s }' \
 	"$(while read line; do printf '%s' "$line"; done)"
 ) | "${CC:-cc}" -x c++ - -o "$FILE" && {
